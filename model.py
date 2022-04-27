@@ -10,9 +10,7 @@ class TraceNet(nn.Module):
         super(TraceNet, self).__init__()
         self.matrix_size = matrix_size
         self.fc1 = nn.Linear(matrix_size * matrix_size, 5 * matrix_size * matrix_size)
-        self.fc2 = nn.Linear(5 * matrix_size * matrix_size, 5 * matrix_size * matrix_size)
-        self.fc3 = nn.Linear(5 * matrix_size * matrix_size, 5 * matrix_size * matrix_size)
-        self.fc4 = nn.Linear(5 * matrix_size * matrix_size, 1)
+        self.fc2 = nn.Linear(5 * matrix_size * matrix_size, 1)
 
     def forward(self, x):
         """
@@ -20,8 +18,6 @@ class TraceNet(nn.Module):
         :return: tensor of size (batch_size, 1)
         """
         x = t.relu(self.fc1(x))
-        x = t.relu(self.fc2(x))
-        x = t.relu(self.fc3(x))
-        x = self.fc4(x)
+        x = self.fc2(x)
 
         return x

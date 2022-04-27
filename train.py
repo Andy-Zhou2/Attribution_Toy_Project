@@ -18,12 +18,12 @@ train_dataloader = DataLoader(train_dataset, batch_size=1024, shuffle=True, pin_
 MSELoss = nn.MSELoss()
 
 epoch = 0
-while True:
+for i in range(300):
     print(f'start epoch: {epoch}')
     epoch_start_time = time.time()
     loss_epoch = 0
 
-    optimizer = optim.Adam(net.parameters(), lr=1e-4)
+    optimizer = optim.Adam(net.parameters(), lr=1e-3)
 
     for i, data in enumerate(train_dataloader):
         optimizer.zero_grad()  # gradient reset
@@ -42,9 +42,9 @@ while True:
 
     epoch += 1
 
-    if epoch % 1000 == 0:
+    if epoch % 5 == 0:
         print('epoch, loss:', epoch, loss_epoch)
         epoch_time = time.time() - epoch_start_time
         print('epoch time:', epoch_time)
         state = {"weight": net.state_dict()}
-        t.save(state, f'TraceNet_{epoch}.net')
+        t.save(state, f'./nets/TraceNet_{epoch}.net')
