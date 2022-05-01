@@ -4,7 +4,7 @@ from model import TraceNet
 import numpy as np
 
 net = TraceNet(10)
-net.load_state_dict(t.load('./nets/TraceNet_300.net')['weight'])
+net.load_state_dict(t.load('./nets/TraceNet_mask_300_0_0.net')['weight'])
 
 matrix = t.tensor([[1, 2], [3, 4]], dtype=t.float)
 matrix *= 10000
