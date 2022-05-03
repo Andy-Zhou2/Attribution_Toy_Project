@@ -18,22 +18,23 @@ train_dataloader = DataLoader(train_dataset, batch_size=1024, shuffle=True, pin_
 MSELoss = nn.MSELoss()
 
 epoch = 0
-for i in range(300):
-    print(f'start epoch: {epoch}')
+for i in range(50000):
+    # print(f'start epoch: {epoch}')
     epoch_start_time = time.time()
     loss_epoch = 0
 
     optimizer = optim.Adam(net.parameters(), lr=1e-3)
 
-    for i, data in enumerate(train_dataloader):
+    for _, data in enumerate(train_dataloader):
         optimizer.zero_grad()  # gradient reset
         matrix, correct_trace = data
+        trace_squared = correct_trace ** 2
         matrix = matrix.to(GPU)
-        correct_trace = correct_trace.to(GPU)
+        trace_squared = trace_squared.to(GPU)
 
         pred_trace = net(matrix)
         pred_trace = pred_trace.view(-1)
-        loss = MSELoss(pred_trace, correct_trace)
+        loss = MSELoss(pred_trace, trace_squared)
 
         loss_epoch += loss.item()
         loss.backward()
@@ -42,9 +43,8 @@ for i in range(300):
 
     epoch += 1
 
-    if epoch % 5 == 0:
-        print('epoch, loss:', epoch, loss_epoch)
-        epoch_time = time.time() - epoch_start_time
-        print('epoch time:', epoch_time)
-        state = {"weight": net.state_dict()}
-        t.save(state, f'./nets/TraceNet_{epoch}.net')
+    print('epoch, loss:', epoch, loss_epoch)
+# epoch_time = time.time() - epoch_start_time
+# print('epoch time:', epoch_time)
+state = {"weight": net.state_dict()}
+t.save(state, f'./nets/TraceNetSquared_1e-3_50000.net')

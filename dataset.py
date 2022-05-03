@@ -4,7 +4,7 @@ from random import randint
 
 
 def get_random_matrix_trace(size):
-    a = (t.rand(size, size)-0.5) * 1000
+    a = (t.rand(size, size)-0.5) * 20  # -10 to 10
     trace = 0
     for i in range(size):
         trace += a[i, i]

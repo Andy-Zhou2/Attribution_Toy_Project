@@ -4,10 +4,10 @@ from model import TraceNet
 import numpy as np
 
 net = TraceNet(10)
-net.load_state_dict(t.load('./nets/TraceNet_mask_300_0_0.net')['weight'])
+net.load_state_dict(t.load('./nets/TraceNetSquared_1e-3_50000.net')['weight'])
 
-matrix = t.tensor([[1, 2], [3, 4]], dtype=t.float)
-matrix *= 10000
+matrix = t.tensor([[5, 2], [3, 9]], dtype=t.float)
+matrix *= 1
 
 fitted_matrix = fit_matrix_linear(matrix, 2, 10)
 fitted_matrix = t.unsqueeze(fitted_matrix, 0)
