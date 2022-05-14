@@ -4,7 +4,7 @@ from random import randint
 
 
 def get_random_matrix_trace(size):
-    a = (t.rand(size, size)-0.5) * 20  # -10 to 10
+    a = t.randint(low=0, high=6, size=(size, size))
     trace = 0
     for i in range(size):
         trace += a[i, i]
@@ -27,10 +27,13 @@ class RandomMatrixDataset(Dataset):
 
     def __getitem__(self, index):
         # returns a random tensor
-        size = randint(1, 10)
+        size = 2  # always generate 2x2 matrices
         a, trace = get_random_matrix_trace(size)
         r = fit_matrix_linear(a, size, self.max_matrix_size)
-        return r, trace
+        trace_vector = t.zeros(11)  # possible trace: from 0-20
+        trace_vector[trace] = 1
+        return r, trace_vector, trace
 
 # md = RandomMatrixDataset(10)
-# print(md[0])
+# m, tt, t2 = md[0]
+# print(m.reshape(10, 10), t2)
